@@ -1,0 +1,374 @@
+{UTF-8}
+Agricultural demand  = A FUNCTION OF( Population)
+	~	
+	~		|
+
+Amount of municipal funds allocated to the environemtnal sector  = A FUNCTION OF( )
+	~	
+	~		|
+
+Available land  = A FUNCTION OF( Urbanization)
+	~	
+	~		|
+
+Biodiversity  = A FUNCTION OF( Nutrient enrichment in Lake Atitlán)
+	~	
+	~		|
+
+Buying power  = A FUNCTION OF( Farmer's income,Fisherman's income,Jobs,Tourism businesses revenues\
+		)
+	~	
+	~		|
+
+Consumption  = A FUNCTION OF( Buying power,Tourists)
+	~	
+	~		|
+
+Cultivated area  = A FUNCTION OF( Agricultural demand,Potential farmer's investments,\
+		Trees)
+	~	
+	~		|
+
+Cyanobacteria  = A FUNCTION OF( Nutrient enrichment in Lake Atitlán)
+	~	
+	~		|
+
+Diseases  = A FUNCTION OF( Cyanobacteria)
+	~	
+	~		|
+
+Dry toilets  = A FUNCTION OF( Available land)
+	~	
+	~		|
+
+Education  = A FUNCTION OF( GDP)
+	~	
+	~		|
+
+Environmental awareness  = A FUNCTION OF( Cyanobacteria,Education)
+	~	
+	~		|
+
+Erosion  = A FUNCTION OF( Mining,Trees)
+	~	
+	~		|
+
+Exports  = A FUNCTION OF( Cultivated area)
+	~	
+	~		|
+
+Farmer's income  = A FUNCTION OF( Cultivated area)
+	~	
+	~		|
+
+Fire corridors  = A FUNCTION OF( )
+	~	
+	~		|
+
+Fisherman's income  = A FUNCTION OF( Native fish species)
+	~	
+	~		|
+
+Forest fires  = A FUNCTION OF( Fire corridors)
+	~	
+	~		|
+
+GDP  = A FUNCTION OF( Consumption,Exports,Investments in tourism businesses,Potential farmer's investments\
+		,Productivity,Public spending)
+	~	
+	~		|
+
+Government subsidies  = A FUNCTION OF( )
+	~	
+	~		|
+
+Inorganic detergents and soaps  = A FUNCTION OF( Population,Unsustainable consumerism\
+		)
+	~	
+	~		|
+
+Inorganic fertilizers and pesticides  = A FUNCTION OF( Cultivated area,Government subsidies\
+		,Unsustainable consumerism)
+	~	
+	~		|
+
+Investments in tourism businesses  = A FUNCTION OF( Tourists)
+	~	
+	~		|
+
+Jobs  = A FUNCTION OF( Tourism businesses revenues)
+	~	
+	~		|
+
+Mining  = A FUNCTION OF( )
+	~	
+	~		|
+
+Municipal funds  = A FUNCTION OF( )
+	~	
+	~		|
+
+Native fish species  = A FUNCTION OF( Cyanobacteria,Nutrient enrichment in Lake Atitlán\
+		,Overfishing)
+	~	
+	~		|
+
+Nutrient enrichment in Lake Atitlán  = A FUNCTION OF( Erosion,Inorganic detergents and soaps\
+		,Native fish species,Scirpus californicus,Untreated wastewater)
+	~	
+	~		|
+
+Overfishing  = A FUNCTION OF( Fisherman's income)
+	~	
+	~		|
+
+Plastic waste  = A FUNCTION OF( Plastic water bottles)
+	~	
+	~		|
+
+Plastic water bottles  = A FUNCTION OF( Potable lake water)
+	~	
+	~		|
+
+Population  = A FUNCTION OF( Education)
+	~	
+	~		|
+
+Potable lake water  = A FUNCTION OF( Nutrient enrichment in Lake Atitlán)
+	~	
+	~		|
+
+Potential farmer's investments  = A FUNCTION OF( Farmer's income) ~~|
+Potential farmer's investments=
+	~	
+	~		|
+
+Productivity  = A FUNCTION OF( Diseases)
+	~	
+	~		|
+
+Public spending  = A FUNCTION OF( Municipal funds)
+	~	
+	~		|
+
+Reforestation  = A FUNCTION OF( Environmental awareness)
+	~	
+	~		|
+
+Scirpus californicus  = A FUNCTION OF( Environmental awareness)
+	~	
+	~		|
+
+Septic tanks  = A FUNCTION OF( Available land)
+	~	
+	~		|
+
+Tourism businesses revenues  = A FUNCTION OF( Tourists)
+	~	
+	~		|
+
+Tourists  = A FUNCTION OF( Biodiversity,Cyanobacteria)
+	~	
+	~		|
+
+Trees  = A FUNCTION OF( Cultivated area,Forest fires,Reforestation,Urbanization)
+	~	
+	~		|
+
+Unsustainable consumerism  = A FUNCTION OF( Environmental awareness)
+	~	
+	~		|
+
+Untreated wastewater  = A FUNCTION OF( Dry toilets,Population,Septic tanks,Tourists,WWTP\
+		)
+	~	
+	~		|
+
+Urbanization  = A FUNCTION OF( Population)
+	~	
+	~		|
+
+WWTP  = A FUNCTION OF( Amount of municipal funds allocated to the environemtnal sector\
+		,Municipal funds,Tourism businesses revenues)
+	~	
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 100
+	~	Month
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP 
+	~	Month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	Month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,50,0
+10,1,Nutrient enrichment in Lake Atitlán,1693,499,71,39,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,2,Erosion,1643,391,25,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,3,Untreated wastewater,1540,582,37,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,4,2,1,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1672,423)|
+1,5,3,1,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1613,537)|
+10,6,Native fish species,1635,642,58,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,7,Trees,1645,319,19,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,8,7,2,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1659,365)|
+10,9,Forest fires,1637,262,36,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,10,9,7,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1649,289)|
+10,11,Urbanization,1531,329,40,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,12,11,7,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1599,321)|
+10,13,Reforestation,1500,274,42,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,14,13,7,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1596,285)|
+10,15,Fire corridors,1581,205,44,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,16,15,9,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1600,225)|
+10,17,Overfishing,1681,733,36,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,18,17,6,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1656,651)|
+10,19,Septic tanks,1388,638,39,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,20,Dry toilets,1340,605,33,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,21,WWTP,1489,685,26,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,22,20,3,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1408,589)|
+1,23,19,3,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1444,621)|
+1,24,21,3,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1511,650)|
+10,25,Available land,1148,674,45,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,26,25,20,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1213,615)|
+10,27,Municipal funds,1177,741,50,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,28,Amount of municipal funds allocated to the environemtnal sector,1353,746,84,28,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,29,27,21,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1359,695)|
+1,30,28,21,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1440,717)|
+10,31,Inorganic detergents and soaps,1468,477,65,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,32,31,1,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1568,466)|
+10,33,Unsustainable consumerism,1105,413,44,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,34,33,31,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1231,425)|
+10,35,Environmental awareness,895,474,45,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,36,35,33,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1005,429)|
+10,37,Population,824,653,34,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,38,37,3,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1173,618)|
+10,39,Education,657,523,32,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,40,39,37,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(717,619)|
+1,41,39,35,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(769,482)|
+1,42,6,1,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1636,601)|
+1,43,1,6,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1723,574)|
+1,44,37,31,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1079,539)|
+1,45,35,13,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1033,357)|
+1,46,25,19,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1273,667)|
+10,47,Scirpus californicus,1453,531,36,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,48,35,47,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1192,466)|
+1,49,47,1,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1548,518)|
+10,50,Mining,1728,351,23,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,51,50,2,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1696,383)|
+1,52,37,11,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1039,491)|
+10,53,Agricultural demand,800,429,37,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,54,37,53,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(792,565)|
+10,55,Farmer's income,699,241,52,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,56,Potential farmer's investments,791,102,55,19,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,57,Inorganic fertilizers and pesticides,1181,226,60,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,58,33,57,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1156,325)|
+10,59,Government subsidies,1361,199,40,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,60,59,57,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1272,234)|
+10,61,Cultivated area,881,311,48,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,62,61,57,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1015,259)|
+1,63,56,61,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(859,146)|
+1,64,55,56,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(723,129)|
+1,65,53,61,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(873,395)|
+1,66,61,55,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(752,306)|
+1,67,61,7,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1275,254)|
+10,68,Cyanobacteria,1828,723,46,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,69,1,68,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1772,587)|
+1,70,68,35,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1693,850)|
+10,71,Biodiversity,1847,573,38,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,72,68,6,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1748,686)|
+1,73,1,71,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1797,537)|
+10,74,Tourists,1928,642,26,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,75,68,74,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1901,701)|
+1,76,71,74,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1907,595)|
+1,77,74,3,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1617,894)|
+1,78,11,25,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(617,4)|
+10,79,Potable lake water,1896,498,59,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,80,1,79,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1801,462)|
+10,81,Plastic water bottles,2059,541,41,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,82,79,81,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1913,539)|
+10,83,Plastic waste,2232,543,41,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,84,81,83,0,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(2138,541)|
+10,85,Exports,672,371,26,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,86,61,85,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(832,355)|
+10,87,Fisherman's income,1641,809,38,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,88,87,17,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1673,777)|
+1,89,6,87,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1613,727)|
+10,90,Tourism businesses revenues,2091,659,61,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,91,74,90,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1985,670)|
+1,92,90,21,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1791,1018)|
+10,93,Jobs,2220,629,16,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,94,90,93,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(2167,630)|
+10,95,Buying power,1719,5,44,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,96,55,95,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(860,9)|
+1,97,90,95,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(2156,402)|
+1,98,93,95,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(2229,294)|
+1,99,87,95,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(2335,674)|
+10,100,Consumption,1623,83,42,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,101,95,100,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1637,23)|
+1,102,74,100,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1969,331)|
+10,103,GDP,1733,203,18,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,104,100,103,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1627,163)|
+1,105,56,103,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1108,-41)|
+1,106,85,103,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(721,-101)|
+10,107,Investments in tourism businesses,1883,393,59,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,108,74,107,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1968,461)|
+1,109,107,103,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1793,262)|
+10,110,Public spending,1216,831,49,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,111,27,110,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1144,779)|
+1,112,110,103,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(2035,830)|
+1,113,103,39,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(912,-111)|
+1,114,7,61,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(1425,163)|
+10,115,Diseases,1995,771,29,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,116,68,115,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(1873,785)|
+10,117,Productivity,2236,715,38,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,118,115,117,1,0,45,0,2,64,0,-1--1--1,|12||0-0-0,1|(2104,774)|
+1,119,117,103,1,0,43,0,2,64,0,-1--1--1,|12||0-0-0,1|(2339,450)|
+///---\\\
+:L<%^E!@
+23:0
+15:0,0,0,0,0,0
+19:50,0
+27:0,
+34:0,
+42:1
+72:0
+73:0
+5:Agricultural demand
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:2
+41:0
+76:0
+77:0
+78:0
+79:0
+80:0
+81:0
+24:0
+25:0
+26:0
+75:
+43:
