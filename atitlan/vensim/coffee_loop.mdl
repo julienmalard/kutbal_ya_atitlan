@@ -1,0 +1,136 @@
+{UTF-8}
+Actual coffee production=
+	DELAY1(Desired coffee production, 4*12 )
+	~	
+	~	assume 4 year, or 48 month, delay
+	|
+
+Agricultural land demand=
+	Land for coffee production
+	~	hectares
+	~		|
+
+"Coffee demand (price)"=
+	2.69
+	~	USD/kg
+	~	http://www.ico.org/historical/1990%20onwards/PDF/3a-prices-growers.pdf
+	|
+
+"Coffee demand (quantity)"=
+	4007
+	~	bags
+	~	http://www.ico.org/historical/1990%20onwards/PDF/1a-total-production.pdf
+		(units are thousand, 60 kg bags)
+	|
+
+Coffee supply curve slope=
+	(1/Price elasticity of supply)*"Coffee demand (price)"*60*1000/"Coffee demand (quantity)"
+	~	
+	~		|
+
+"Coffee supply curve y-int"=
+	0
+	~	
+	~	default at 0 for now
+	|
+
+Desired coffee production=
+	("Coffee demand (price)"-"Coffee supply curve y-int")/Coffee supply curve slope
+	~	bags
+	~	units are thousand 60-kg bags
+	|
+
+Land for coffee production=
+	Actual coffee production/500*1000*60
+	~	hectares
+	~	assume 500 kg/ha (https://www.britannica.com/plant/coffee-plant-genus)
+	|
+
+Price elasticity of supply=
+	0.13
+	~	
+	~	http://documents.worldbank.org/curated/en/148721468765603318/pdf/multi-page\
+		.pdf
+	|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 100
+	~	Month
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	Month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,Agricultural land demand,118,108,52,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,2,Land for coffee production,268,134,49,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,3,Actual coffee production,376,185,43,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,4,Desired coffee production,462,252,47,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,5,Coffee supply curve slope,536,313,45,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,6,"Coffee demand (price)",602,365,49,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,7,6,5,1,0,0,0,0,64,0,-1--1--1,,1|(599,319)|
+1,8,4,3,1,0,0,0,0,64,0,-1--1--1,,1|(458,210)|
+1,9,5,4,1,0,0,0,0,64,0,-1--1--1,,1|(532,271)|
+1,10,3,2,1,0,0,0,0,64,0,-1--1--1,,1|(359,139)|
+1,11,2,1,1,0,0,0,0,64,0,-1--1--1,,1|(206,93)|
+10,12,Price elasticity of supply,480,428,54,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,13,"Coffee demand (quantity)",364,356,49,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,14,12,5,1,0,0,0,0,64,0,-1--1--1,,1|(530,374)|
+1,15,13,5,1,0,0,0,0,64,0,-1--1--1,,1|(458,352)|
+10,16,"Coffee supply curve y-int",618,222,45,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,17,16,4,1,0,0,0,0,64,0,-1--1--1,,1|(541,214)|
+1,18,6,4,1,0,0,0,0,64,0,-1--1--1,,1|(588,267)|
+///---\\\
+:L<%^E!@
+1:Current.vdfx
+9:Current
+23:0
+15:0,0,0,0,0,0
+19:100,0
+27:0,
+34:0,
+42:1
+72:0
+73:0
+4:Time
+5:Coffee supply curve slope
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:2
+41:0
+76:0
+77:0
+78:0
+79:0
+80:0
+81:0
+24:0
+25:100
+26:100
+75:
+43:
