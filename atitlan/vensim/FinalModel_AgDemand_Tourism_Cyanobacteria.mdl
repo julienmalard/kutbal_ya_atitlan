@@ -1,0 +1,907 @@
+{UTF-8}
+Probability of cyanobacterial bloom=
+	1/(1+EXP( -(3.924+LOG(Concentration of P in lake water*1000, 10)*4.119) )) +Concentration of N in lake water\
+		*1000*0
+	~	
+	~	equation from Julien's python program, from digitized data, see "digitized \
+		atitlan data" folder
+	|
+
+Inflow of lake volume=
+	Total wastewater*30
+	~	liters/Month
+	~	times 30 days in a month
+	|
+
+Inflow of N=
+	Persons on sewer network*Concentration of N in human excrement
+	~	g/Month
+	~		|
+
+Inflow of P=
+	Persons on sewer network*Concentration of P in human excrement
+	~	g/Month
+	~		|
+
+Concentration of P in lake water=
+	Total phosphorus/Total lake volume
+	~	g/L
+	~		|
+
+Consumptive use per person=
+	100
+	~	liters/day
+	~	random guess
+	|
+
+Outflow of lake volume=
+	("Evaporation (per day)"+"Human withdrawal (consumptive use per day)"+"Seepage (per day)"\
+		)*30
+	~	liters/Month
+	~	time 30 days per month
+	|
+
+Outflow of N=
+	Concentration of N in lake water*("Human withdrawal (consumptive use per day)"+"Seepage (per day)"\
+		)*30
+	~	g/Month
+	~	times 30 days in month
+	|
+
+"Seepage (per day)"=
+	Area of discharge*Hydraulic conductivity*Hydraulic gradient*1000
+	~	liters/day
+	~	make sure it's in Liters/day
+		time 1000 to convert m^3/day to liters/day
+	|
+
+Area of discharge=
+	2.21989e+08
+	~	square meters
+	~	overestimated random guess using conic surface area approximation (to be modified)
+		
+		https://collections.unu.edu/eserv/UNU:6451/WorkingPaper_No6.pdf 
+		
+		Volume approach, assume conic shape: **actually not conic, needs to be corrected by \
+		using bathymetric data 
+		
+		-total volume is 24.4 km^3 --> radius=8402.792 m --> surface area (not including top \
+		of cone) = 221989154.2 m^2 
+		
+		Surface area approach, assume lake surface area is top surface of cone: 
+		
+		-top sfc area = 127 km^2 --> radius=6358.09 m --> surface area (not \
+		including top of cone)= 127170796.7 m^2
+	|
+
+Latitude=
+	14.7666
+	~	degrees
+	~	based on solola coordinates
+	|
+
+Mean dew point=
+	14
+	~	degrees Celcius
+	~	https://www.accuweather.com/en/gt/guatemala-city/187765/current-weather/187\
+		765 (based on dew point from july 16), need to change with more data
+	|
+
+Mean temperature=
+	15.8
+	~	degrees Celcius
+	~	https://en.climate-data.org/north-america/guatemala/solola/solola-1005364/
+	|
+
+"Evaporation (per day)"=
+	(   (700*(Mean temperature+0.006*Elevation)/(100-Latitude))   +  15*(Mean temperature\
+		-Mean dew point)  )/(80-Mean temperature)*10^-3*(127*10^6)*1000
+	~	liters/day
+	~	original equation (Up to "mean temp") is in mm/day
+		multiply by 10^-3 to get m/day
+		multiply by surface area of 127 km^2 * 10^-6 to get evaporation in m^3/day
+		multiply by 1000 to get liters/day
+	|
+
+Total phosphorus= INTEG (
+	Inflow of P-Outflow of P,
+		(24*10^12)*0.0349755/1000)
+	~	grams
+	~	https://www.sciencedirect.com/science/article/pii/S0075951110000800#bib0010 (total \
+		volume initial value)
+		0.034975519 mg/L of P (from \
+		https://www.amsclae.gob.gt/wp-content/uploads/2019/12/limnologico2019.pdf) \
+		(see compiled atitlan data doc)
+	|
+
+Bloom=
+	IF THEN ELSE( RANDOM UNIFORM(0, 1 , 1234)<=Probability of cyanobacterial bloom , 1, \
+		0)
+	~	
+	~		|
+
+Total wastewater=
+	Percent urban population*Population*180 + Tourists*440
+	~	liters/day
+	~	https://collections.unu.edu/eserv/UNU:6451/WorkingPaper_No6.pdf (180 L/day/person)
+		https://www.gdrc.org/uem/eco-tour/envi/one.html (440 L/day/tourist)
+	|
+
+Tourist memory of bloom=
+	SMOOTHI(Bloom, 60 , 0)
+	~	Probability
+	~	5 years, no particular reason
+	|
+
+Outflow of P=
+	Concentration of P in lake water*("Human withdrawal (consumptive use per day)"+"Seepage (per day)"\
+		)*30
+	~	g/Month
+	~	times 30 days in month
+	|
+
+Percent urban population=
+	0.4976
+	~	
+	~	https://www.maga.gob.gt/wp-content/uploads/pdf/suelos/solola1.pdf
+	|
+
+Persons on sewer network=
+	Tourists+Population*Percent urban population
+	~	
+	~		|
+
+Concentration of N in human excrement=
+	12.5*30
+	~	g/person/Month
+	~	http://ceadserv1.nku.edu/longa/haiti/kids/feces_value.html#12
+		times 30 days in month
+	|
+
+Concentration of N in lake water=
+	Total nitrogen/Total lake volume
+	~	g/L
+	~		|
+
+Concentration of P in human excrement=
+	1.5*30
+	~	g/person/Month
+	~	http://ceadserv1.nku.edu/longa/haiti/kids/feces_value.html#12
+		times 30 days in month
+	|
+
+Total nitrogen= INTEG (
+	Inflow of N-Outflow of N,
+		(24*10^12)*(0.0117986+0.250506)/1000)
+	~	grams
+	~	https://www.sciencedirect.com/science/article/pii/S0075951110000800#bib0010 (total \
+		volume initial value)
+		0.011798635 mg/L of N from nitrates and 0.250505651 mg/L of N from ammonia \
+		(from \
+		https://www.amsclae.gob.gt/wp-content/uploads/2019/12/limnologico2019.pdf) \
+		(see compiled atitlan data doc)
+	|
+
+"Human withdrawal (consumptive use per day)"=
+	Consumptive use per person*Population
+	~	
+	~	make sure it's in Liters/day
+	|
+
+Total lake volume= INTEG (
+	Inflow of lake volume-Outflow of lake volume,
+		24*10^12)
+	~	liters
+	~	https://www.sciencedirect.com/science/article/pii/S0075951110000800#bib0010\
+		 (initial value)
+	|
+
+Hydraulic gradient=
+	0
+	~	m/m [-0.3,0.3]
+	~	random guess for now
+		https://www.sciencedirect.com/science/article/pii/S0048969713011388 \
+		(assume it varies from -0.3 to 0.3)
+	|
+
+Hydraulic conductivity=
+	50
+	~	m/day
+	~	random guess
+	|
+
+Tourists=
+	4910*(1-Tourist memory of bloom)
+	~	people/Month
+	~	initial value kinda random: avg of 1.792 mil per year therefore 4910 per \
+		day(https://www.statista.com/statistics/816557/guatemala-number-of-tourist-\
+		arrivals/#: \
+		:text=Guatemala%3A%20number%20of%20tourist%20arrivals%202005%2D2018&text=Fo\
+		rmer%20territory%20of%20the%20Maya,1.66%20million%20a%20year%20earlier.)
+	|
+
+Elevation=
+	2133
+	~	meters
+	~	https://en.climate-data.org/north-america/guatemala/solola/solola-1005364/
+	|
+
+Actual vegetable land use=
+	IF THEN ELSE(Actual arable land use>=Total agricultral land required, Land required for vegetable production\
+		 , IF THEN ELSE(Actual arable land use<=Land required for subsistence agriculture, \
+		0 , (Land required for vegetable production/(Total agricultral land required-Land required for subsistence agriculture\
+		))*(Actual arable land use-Land required for subsistence agriculture)))
+	~	hectares
+	~	priority for subsistence, remaining land distributed between vegetable and \
+		coffee according to market price
+	|
+
+"Delay (conversion)"=
+	0.5
+	~	 [0,1]
+	~	6 months, random guess
+	|
+
+Actual coffee land use=
+	IF THEN ELSE(Actual arable land use>=Total agricultral land required, Land required for coffee production\
+		, IF THEN ELSE (Actual arable land use<=Land required for subsistence agriculture, \
+		0 , (Land required for coffee production/(Total agricultral land required-Land required for subsistence agriculture\
+		))*(Actual arable land use-Land required for subsistence agriculture)  ))
+	~	hectares
+	~	priority for subsistence, remaining land distributed between vegetable and \
+		coffee according to market price
+	|
+
+Available arable land=
+	Agricultural land
+	~	hectares
+	~		|
+
+Initial agricultural land=
+	45120
+	~	hectares
+	~	https://www.maga.gob.gt/wp-content/uploads/pdf/suelos/solola1.pdf (pdf \
+		page 86, subtotal of food production land)
+	|
+
+Total land=
+	116680
+	~	hectares
+	~	https://www.maga.gob.gt/wp-content/uploads/pdf/suelos/solola1.pdf (pdf \
+		page 86)
+	|
+
+"Non-agricultural land"= INTEG (
+	Land use conversion,
+		Total land-Initial agricultural land)
+	~	hectares
+	~		|
+
+Land use conversion=
+	MAX(MIN(Desired change in agricultural land* "Delay (conversion)" ,"Non-agricultural land"\
+		 ), -Agricultural land )
+	~	
+	~		|
+
+Agricultural land= INTEG (
+	Land use conversion,
+		Initial agricultural land)
+	~	hectares
+	~		|
+
+Desired change in agricultural land=
+	Total agricultral land required-Available arable land
+	~	hectares
+	~		|
+
+Desired land for vegetable production=
+	"Desired supplied quantity (veg)"/Average vegetable yield
+	~	
+	~		|
+
+Actual arable land use=
+	IF THEN ELSE(Available arable land>=Total agricultral land required, Total agricultral land required\
+		, Available arable land)
+	~	hectares
+	~		|
+
+Actual coffee production=
+	DELAY1(Desired cofee production, 4*12 )
+	~	
+	~	assume 4 year, or 48 month, delay
+	|
+
+Actual vegetable price=
+	MIN( Veg demand curve slope*"Actual supplied quantity (veg)"+"Veg demand curve y-int"\
+		 , "Out-of-watershed import price (veg)" )
+	~	
+	~	people will go with the cheaper option
+	|
+
+Actual subsistence land use=
+	IF THEN ELSE(Actual arable land use>=Total agricultral land required, Land required for subsistence agriculture\
+		 , IF THEN ELSE(Actual arable land use<=Land required for subsistence agriculture, \
+		Actual arable land use , Land required for subsistence agriculture ))
+	~	hectares
+	~	priority for subsistence, remaining land distributed between vegetable and \
+		coffee according to market price
+	|
+
+"Actual supplied quantity (veg)"=
+	Land required for vegetable production*Average vegetable yield
+	~	
+	~		|
+
+Land required for vegetable production=
+	MAX( 0, DELAY1I(Desired land for vegetable production, 6 , 106))
+	~	hectares
+	~	106 ha from (ref quantity/avg yield)
+	|
+
+Average vegetable yield=
+	20000
+	~	kg/ha
+	~	https://nevegetable.org/cultural-practices/table-15-approximate-yields \
+		(roughly avg of these vegetables)
+	|
+
+Desired cofee production=
+	(Coffee price-"Coffee supply curve y-int")/Coffee supply curve slope
+	~	bags
+	~	units are thousand 60-kg bags
+	|
+
+"Coffee demand (quantity, ref elasticity of supply)"=
+	4007
+	~	bags
+	~	http://www.ico.org/historical/1990%20onwards/PDF/1a-total-production.pdf
+		(units are thousand, 60 kg bags)
+	|
+
+Coffee price=
+	RAMP( 0.01 , 0.01 , 100 )
+	~	USD/kg
+	~		|
+
+"Coffee price (ref elasticity of supply)"=
+	2.69
+	~	
+	~	http://www.ico.org/historical/1990%20onwards/PDF/3a-prices-growers.pdf  # \
+		2.69
+	|
+
+Coffee supply curve slope=
+	(1/"Price elasticity of supply (coffee)")*"Coffee price (ref elasticity of supply)"/\
+		"Coffee demand (quantity, ref elasticity of supply)"
+	~	
+	~		|
+
+"Coffee supply curve y-int"=
+	0
+	~	
+	~	default at 0 for now, find actual value later
+	|
+
+Ref price=
+	1.13
+	~	
+	~	https://www.numbeo.com/food-prices/country_result.jsp?country=Guatemala  \
+		(using avg of tomato, potato, onion, and lettuce)
+	|
+
+"Delay (veg)"=
+	4
+	~	
+	~	assume 4 month delay, seed to harvest
+	|
+
+"Veg demand curve y-int"=
+	2
+	~	USD/kg
+	~	random guess, change later
+	|
+
+"Veg supply curve y-int"=
+	0
+	~	
+	~	random guess, couldn't find in literature
+	|
+
+"Desired supplied quantity (veg)"=
+	MAX(0, (Expected vegetable price-"Veg supply curve y-int")/Veg supply curve slope)
+	~	
+	~	cannot be negative
+	|
+
+Expected vegetable price=
+	DELAY1(Actual vegetable price, "Delay (veg)")
+	~	
+	~	assume 4 month delay, seed to harvest
+	|
+
+Ref quantity=
+	2.55461e+07/12
+	~	
+	~	https://www.maga.gob.gt/wp-content/uploads/pdf/suelos/solola1.pdf (pg. 29)
+	|
+
+"Price elasticity of demand (veg)"=
+	MAX (0, 0.58)
+	~	
+	~	https://www-ncbi-nlm-nih-gov.proxy3.library.mcgill.ca/pmc/articles/PMC28046\
+		46/
+	|
+
+"Price elasticity of supply (coffee)"=
+	0.13
+	~	
+	~	http://documents.worldbank.org/curated/en/148721468765603318/pdf/multi-page\
+		.pdf
+	|
+
+"Price elasticity of supply (veg)"=
+	MAX (0, 1.29)
+	~	
+	~	https://books.google.ca/books?id=Hu_GDwAAQBAJ&pg=PA46&lpg=PA46&dq=supply+el\
+		asticity+vegetables&source=bl&ots=GD1XWZPPc5&sig=ACfU3U2n8QSQHRhGv1yhgWJwVw\
+		3zJ6wsuw&hl=en&sa=X&ved=2ahUKEwjsuffP25jqAhW3lXIEHbXLC-wQ6AEwC3oECAkQAQ#v=o\
+		nepage&q=supply%20elasticity%20vegetables&f=false
+	|
+
+Land required for coffee production=
+	Actual coffee production/500*1000*60
+	~	hectares
+	~	assume 500 kg/ha (https://www.britannica.com/plant/coffee-plant-genus)
+	|
+
+"Out-of-watershed import price (veg)"=
+	1.36
+	~	USD/kg
+	~	https://www.paizadomicilio.com/#/productos  (using avg of tomato, potato, \
+		onion, and lettuce)
+	|
+
+Total agricultral land required=
+	Land required for vegetable production+Land required for subsistence agriculture+Land required for coffee production
+	~	hectares
+	~		|
+
+Veg demand curve slope=
+	-(1/"Price elasticity of demand (veg)")*(Ref price/Ref quantity)
+	~	
+	~	negative sign is important!
+	|
+
+Veg supply curve slope=
+	(1/"Price elasticity of supply (veg)")*(Ref price/Ref quantity)
+	~	
+	~		|
+
+"% population living on subsistence agriculture"=
+	(0.85*Poverty)/350 + 0.25
+	~	
+	~	equation from Julien
+	|
+
+Average education level=
+	DELAY1I( 12*EXP(-(4/354)*Poverty), 240 , 2 )
+	~	years/person
+	~	done using online graphing calculator to correct shape, feel free to \
+		change with better information
+	|
+
+Awan yield=
+	353.483
+	~	kg/acre/Month
+	~	http://www.omafra.gov.on.ca/english/stats/crops/estimate_new.htm 
+		
+		167 bu/acre/year of corn yield --> 25.4 kg/bu --> 4241.8 kg/acre/year --> \
+		353.483 kg/acre/month
+	|
+
+Births=
+	Fertility rate*Population
+	~	persons/Month
+	~		|
+
+Deaths=
+	0.0049*Population/12
+	~	persons/Month
+	~	4.9 deaths per 1000 persons \
+		(https://www.cia.gov/library/publications/the-world-factbook/geos/print_gt.\
+		html)
+		Average for whole country, not specific to solola
+	|
+
+Fertility rate=
+	0.5*(0.258764*EXP(-0.14571 * Average education level) + 0.0380594)/12
+	~	persons/person/Month
+	~	equation from Julien
+	|
+
+GNI per capita=
+	8310
+	~	PPP
+	~	https://www.google.com/publicdata/explore?ds=d5bncppjof8f9_&ctype=l&strail=\
+		false&bcs=d&nselm=h&met_y=ny_gnp_pcap_pp_cd&scale_y=lin&ind_y=false&rdim=wo\
+		rld&idim=country:GTM:NIC:HND&ifdim=world&hl=en&dl=en&ind=false
+	|
+
+Income per person=
+	GNI per capita*3.96
+	~	
+	~	https://www.ceicdata.com/en/guatemala/gross-domestic-product-purchasing-pow\
+		er-parity/gt-ppp-conversion-factor-gdp
+	|
+
+Initial Population= INITIAL(
+	107646)
+	~	persons
+	~	https://www.maga.gob.gt/wp-content/uploads/pdf/suelos/solola1.pdf
+	|
+
+Land required for subsistence agriculture=
+	Population*Land required to feed 1 person*"% population living on subsistence agriculture"
+	~	hectares
+	~		|
+
+Land required to feed 1 person=
+	Monthly corn requirement per person/Awan yield/2.471
+	~	hectares
+	~	divide by 2.471 to convert acres to hectares
+	|
+
+Monthly corn requirement per person=
+	90
+	~	kg/Month/person
+	~	https://www.healthline.com/nutrition/foods/corn#nutrients 
+		
+		96 kcal/100 g corn 
+		
+		960 kcal/1 kg corn 
+		
+		2970kcal/person/day divided by 960 kcal/1 kg --> 3 kg/day/person --> 90 \
+		kg/month/person
+		
+		2970 kcal/person/day from: 
+		http://www.fao.org/fileadmin/templates/wsfs/docs/Issues_papers/HLEF2050_Glo\
+		bal_Agriculture.pdf
+	|
+
+Population= INTEG (
+	Births-Deaths,
+		Initial Population)
+	~	persons
+	~		|
+
+Poverty=
+	353.971/(1+EXP(0.0031*(Income per person-680.744)))
+	~	
+	~	equation from Julien
+	|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 120
+	~	Month
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	Month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,45,0
+10,1,Land required for subsistence agriculture,1243,462,71,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,2,Land required for coffee production,1839,441,56,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,3,Land required for vegetable production,1662,285,67,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,4,Population,1064,560,40,20,3,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,5,Land required to feed 1 person,1320,557,54,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,6,"% population living on subsistence agriculture",1431,492,71,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,7,Awan yield,1291,634,36,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,8,Monthly corn requirement per person,1493,606,74,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,9,Poverty,1590,517,26,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,10,Income per person,1716,547,59,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,11,GNI per capita,1854,602,48,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,12,Average education level,967,335,47,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+12,13,48,1057,425,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,14,16,4,4,0,0,22,0,0,0,-1--1--1,,1|(1057,518)|
+1,15,16,13,100,0,0,22,0,0,0,-1--1--1,,1|(1057,459)|
+11,16,48,1057,491,8,6,33,3,0,0,4,0,0,0,0,0,0,0,0,0
+10,17,Births,1085,491,20,11,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+12,18,48,1064,707,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,19,21,18,4,0,0,22,0,0,0,-1--1--1,,1|(1064,670)|
+1,20,21,4,100,0,0,22,0,0,0,-1--1--1,,1|(1064,604)|
+11,21,48,1064,635,8,6,33,3,0,0,4,0,0,0,0,0,0,0,0,0
+10,22,Deaths,1095,635,23,11,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,23,Initial Population,933,631,52,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,24,23,4,1,0,0,0,0,64,1,-1--1--1,,1|(990,590)|
+10,25,Fertility rate,930,438,38,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,26,12,25,1,0,0,0,0,64,0,-1--1--1,,1|(928,378)|
+1,27,25,17,1,0,0,0,0,64,0,-1--1--1,,1|(976,504)|
+1,28,4,17,1,0,0,0,0,64,0,-1--1--1,,1|(1124,527)|
+1,29,4,22,1,0,0,0,0,64,0,-1--1--1,,1|(1115,581)|
+1,30,4,1,1,0,0,0,0,64,0,-1--1--1,,1|(1141,524)|
+1,31,5,1,1,0,0,0,0,64,0,-1--1--1,,1|(1301,508)|
+1,32,6,1,1,0,0,0,0,64,0,-1--1--1,,1|(1343,464)|
+1,33,7,5,1,0,0,0,0,64,0,-1--1--1,,1|(1308,604)|
+1,34,8,5,1,0,0,0,0,64,0,-1--1--1,,1|(1405,603)|
+1,35,9,6,1,0,0,0,0,64,0,-1--1--1,,1|(1516,491)|
+1,36,10,9,1,0,0,0,0,64,0,-1--1--1,,1|(1652,517)|
+1,37,11,10,1,0,0,0,0,64,0,-1--1--1,,1|(1803,567)|
+1,38,9,12,1,0,0,0,0,64,0,-1--1--1,,1|(1240,349)|
+10,39,Actual coffee production,2004,452,43,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,40,Desired cofee production,2142,460,45,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,41,"Coffee supply curve y-int",2167,368,45,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,42,Coffee price,2260,418,40,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,43,Coffee supply curve slope,2345,511,45,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,44,"Coffee demand (quantity, ref elasticity of supply)",2422,423,81,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,45,"Price elasticity of supply (coffee)",2379,605,54,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,46,"Coffee price (ref elasticity of supply)",2490,506,61,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,47,39,2,1,0,0,0,0,64,0,-1--1--1,,1|(1934,449)|
+1,48,40,39,1,0,0,0,0,64,0,-1--1--1,,1|(2072,425)|
+1,49,41,40,1,0,0,0,0,64,0,-1--1--1,,1|(2158,418)|
+1,50,42,40,1,0,0,0,0,64,0,-1--1--1,,1|(2208,447)|
+1,51,43,40,1,0,0,0,0,64,0,-1--1--1,,1|(2229,543)|
+1,52,44,43,1,0,0,0,0,64,0,-1--1--1,,1|(2397,470)|
+1,53,45,43,1,0,0,0,0,64,0,-1--1--1,,1|(2350,560)|
+1,54,46,43,1,0,0,0,0,64,0,-1--1--1,,1|(2409,532)|
+10,55,Desired land for vegetable production,1665,133,67,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,56,"Actual supplied quantity (veg)",1841,177,49,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,57,"Desired supplied quantity (veg)",1793,-14,54,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,58,Average vegetable yield,1800,77,47,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,59,55,3,1,0,0,0,0,64,0,-1--1--1,,1|(1653,192)|
+1,60,58,55,1,0,0,0,0,64,0,-1--1--1,,1|(1752,105)|
+1,61,58,56,1,0,0,0,0,64,0,-1--1--1,,1|(1802,123)|
+1,62,3,56,1,0,0,0,0,64,0,-1--1--1,,1|(1763,250)|
+1,63,57,55,1,0,0,0,0,64,0,-1--1--1,,1|(1666,31)|
+10,64,Expected vegetable price,1938,46,48,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,65,Actual vegetable price,2108,82,53,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,66,"Delay (veg)",2028,-18,37,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,67,"Out-of-watershed import price (veg)",2117,166,58,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,68,66,64,1,0,0,0,0,64,0,-1--1--1,,1|(1998,21)|
+1,69,64,57,1,0,0,0,0,64,0,-1--1--1,,1|(1883,0)|
+1,70,65,64,1,0,0,0,0,64,0,-1--1--1,,1|(2028,75)|
+1,71,56,65,1,0,0,0,0,64,0,-1--1--1,,1|(1980,144)|
+1,72,67,65,1,0,0,0,0,64,0,-1--1--1,,1|(2124,133)|
+10,73,"Veg supply curve y-int",1873,-162,56,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,74,Veg supply curve slope,2044,-122,56,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,75,Veg demand curve slope,2201,-60,41,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,76,"Veg demand curve y-int",2286,19,41,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,77,76,65,1,0,0,0,0,64,0,-1--1--1,,1|(2192,40)|
+1,78,75,65,1,0,0,0,0,64,0,-1--1--1,,1|(2142,-1)|
+1,79,74,57,1,0,0,0,0,64,0,-1--1--1,,1|(1920,-80)|
+1,80,73,57,1,0,0,0,0,64,0,-1--1--1,,1|(1821,-99)|
+10,81,Ref quantity,2141,-257,38,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,82,Ref price,2286,-179,30,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,83,"Price elasticity of supply (veg)",1973,-257,54,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,84,"Price elasticity of demand (veg)",2379,-80,54,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,85,83,74,1,0,0,0,0,64,0,-1--1--1,,1|(1991,-185)|
+1,86,81,74,1,0,0,0,0,64,0,-1--1--1,,1|(2088,-209)|
+1,87,82,74,1,0,0,0,0,64,0,-1--1--1,,1|(2165,-176)|
+1,88,81,75,1,0,0,0,0,64,0,-1--1--1,,1|(2192,-175)|
+1,89,82,75,1,0,0,0,0,64,0,-1--1--1,,1|(2259,-120)|
+1,90,84,75,1,0,0,0,0,64,0,-1--1--1,,1|(2282,-55)|
+10,91,Agricultural land,1025,-71,40,20,3,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,92,"Non-agricultural land",1275,-71,40,20,3,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,93,95,92,4,0,0,22,0,0,0,-1--1--1,,1|(1195,-71)|
+1,94,95,91,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(1104,-71)|
+11,95,1608,1149,-71,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,96,Land use conversion,1149,-44,35,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,97,"Delay (conversion)",1074,-135,59,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,98,97,96,1,0,0,0,0,64,0,-1--1--1,,1|(1104,-94)|
+10,99,Available arable land,1167,47,52,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,100,91,99,1,0,0,0,0,64,0,-1--1--1,,1|(1069,-9)|
+10,101,Actual arable land use,1299,74,43,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,102,99,101,0,0,0,0,0,64,0,-1--1--1,,1|(1230,59)|
+10,103,Actual subsistence land use,1173,193,59,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,104,Actual vegetable land use,1472,161,53,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,105,Actual coffee land use,1330,236,43,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,106,1,103,0,0,0,0,0,64,0,-1--1--1,,1|(1209,334)|
+1,107,101,103,0,0,0,0,0,64,0,-1--1--1,,1|(1241,128)|
+1,108,101,105,0,0,0,0,0,64,0,-1--1--1,,1|(1312,148)|
+1,109,101,104,0,0,0,0,0,64,0,-1--1--1,,1|(1378,114)|
+1,110,2,105,0,0,0,0,0,64,0,-1--1--1,,1|(1588,340)|
+1,111,3,104,0,0,0,0,0,64,0,-1--1--1,,1|(1572,226)|
+10,112,Total agricultral land required,1500,388,49,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,113,1,112,0,0,0,0,0,64,0,-1--1--1,,1|(1372,424)|
+1,114,2,112,0,0,0,0,0,64,0,-1--1--1,,1|(1672,415)|
+1,115,3,112,0,0,0,0,0,64,0,-1--1--1,,1|(1586,332)|
+1,116,112,103,0,0,0,0,0,64,0,-1--1--1,,1|(1342,294)|
+1,117,112,105,0,0,0,0,0,64,0,-1--1--1,,1|(1420,316)|
+1,118,112,104,0,0,0,0,0,64,0,-1--1--1,,1|(1486,281)|
+1,119,112,101,0,0,0,0,0,64,0,-1--1--1,,1|(1403,236)|
+1,120,1,104,0,0,0,0,0,64,0,-1--1--1,,1|(1352,317)|
+1,121,1,105,0,0,0,0,0,64,0,-1--1--1,,1|(1283,355)|
+10,122,Desired change in agricultural land,1398,-121,57,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,123,112,122,1,0,0,0,0,64,0,-1--1--1,,1|(1516,126)|
+1,124,122,96,1,0,0,0,0,64,0,-1--1--1,,1|(1236,-121)|
+1,125,92,96,0,0,0,0,0,64,0,-1--1--1,,1|(1216,-59)|
+10,126,Initial agricultural land,899,-29,54,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,127,126,91,0,0,0,0,0,64,1,-1--1--1,,1|(962,-51)|
+10,128,Total land,1185,-201,32,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,129,128,92,0,0,0,0,0,64,1,-1--1--1,,1|(1222,-147)|
+1,130,126,92,1,0,0,0,0,64,1,-1--1--1,,1|(1155,-2)|
+1,131,99,122,1,0,0,0,0,64,0,-1--1--1,,1|(1321,-13)|
+1,132,91,96,0,0,0,0,0,64,0,-1--1--1,,1|(1082,-60)|
+10,133,Percent urban population,1263,826,45,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,134,Persons on sewer network,1506,822,57,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,135,Tourists,1714,787,26,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,136,Tourist memory of bloom,1861,846,59,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,137,Bloom,1872,936,22,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,138,Probability of cyanobacterial bloom,1864,1004,68,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,139,Total wastewater,928,842,54,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,140,Total nitrogen,1344,915,40,20,3,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,141,Total phosphorus,1346,1000,40,20,3,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,142,Total lake volume,1345,1086,40,20,3,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,143,Mean dew point,1443,1315,52,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+12,144,48,1187,914,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,145,147,140,4,0,0,22,0,0,0,-1--1--1,,1|(1280,914)|
+1,146,147,144,100,0,0,22,0,0,0,-1--1--1,,1|(1220,914)|
+11,147,48,1250,914,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,148,Inflow of N,1250,933,37,11,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+12,149,48,1517,916,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,150,152,149,4,0,0,22,0,0,0,-1--1--1,,1|(1479,916)|
+1,151,152,140,100,0,0,22,0,0,0,-1--1--1,,1|(1411,916)|
+11,152,48,1445,916,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,153,Outflow of N,1445,935,43,11,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+12,154,48,1185,996,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,155,157,141,4,0,0,22,0,0,0,-1--1--1,,1|(1281,996)|
+1,156,157,154,100,0,0,22,0,0,0,-1--1--1,,1|(1219,996)|
+11,157,48,1250,996,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,158,Inflow of P,1250,1015,36,11,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+12,159,48,1518,1001,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,160,162,159,4,0,0,22,0,0,0,-1--1--1,,1|(1480,1001)|
+1,161,162,141,100,0,0,22,0,0,0,-1--1--1,,1|(1413,1001)|
+11,162,48,1447,1001,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,163,Outflow of P,1447,1020,41,11,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+12,164,48,1187,1082,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,165,167,142,4,0,0,22,0,0,0,-1--1--1,,1|(1281,1082)|
+1,166,167,164,100,0,0,22,0,0,0,-1--1--1,,1|(1221,1082)|
+11,167,48,1251,1082,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,168,Inflow of lake volume,1251,1109,44,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+12,169,48,1522,1084,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,170,172,169,4,0,0,22,0,0,0,-1--1--1,,1|(1483,1084)|
+1,171,172,142,100,0,0,22,0,0,0,-1--1--1,,1|(1413,1084)|
+11,172,48,1448,1084,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,173,Outflow of lake volume,1448,1111,50,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,174,Concentration of N in human excrement,1020,917,69,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,175,Concentration of P in human excrement,1019,997,68,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,176,"Seepage (per day)",1125,1212,58,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,177,"Evaporation (per day)",1326,1214,54,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,178,Consumptive use per person,1509,1206,55,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,179,"Human withdrawal (consumptive use per day)",1678,1147,68,28,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,180,Concentration of N in lake water,1662,908,62,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,181,Concentration of P in lake water,1663,1002,68,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,182,Hydraulic conductivity,960,1214,39,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,183,Area of discharge,1022,1273,56,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,184,Hydraulic gradient,1094,1311,57,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,185,Elevation,1240,1267,30,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,186,Mean temperature,1294,1299,58,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,187,Latitude,1362,1283,27,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,188,4,134,0,0,0,0,0,64,0,-1--1--1,,1|(1278,687)|
+1,189,4,139,0,0,0,0,0,64,0,-1--1--1,,1|(997,699)|
+1,190,4,179,1,0,0,0,0,64,0,-1--1--1,,1|(965,1319)|
+1,191,133,134,0,0,0,0,0,64,0,-1--1--1,,1|(1371,824)|
+1,192,133,139,0,0,0,0,0,64,0,-1--1--1,,1|(1106,833)|
+1,193,135,139,1,0,0,0,0,64,0,-1--1--1,,1|(1313,746)|
+1,194,134,148,1,0,0,0,0,64,0,-1--1--1,,1|(1321,871)|
+1,195,134,158,1,0,0,0,0,64,0,-1--1--1,,1|(1342,879)|
+1,196,174,148,0,0,0,0,0,64,0,-1--1--1,,1|(1144,924)|
+1,197,175,158,0,0,0,0,0,64,0,-1--1--1,,1|(1143,1006)|
+1,198,139,168,1,0,0,0,0,64,0,-1--1--1,,1|(899,983)|
+1,199,182,176,0,0,0,0,0,64,0,-1--1--1,,1|(1026,1213)|
+1,200,183,176,0,0,0,0,0,64,0,-1--1--1,,1|(1066,1246)|
+1,201,184,176,0,0,0,0,0,64,0,-1--1--1,,1|(1106,1268)|
+1,202,185,177,0,0,0,0,0,64,0,-1--1--1,,1|(1270,1248)|
+1,203,186,177,0,0,0,0,0,64,0,-1--1--1,,1|(1305,1267)|
+1,204,187,177,0,0,0,0,0,64,0,-1--1--1,,1|(1349,1259)|
+1,205,143,177,1,0,0,0,0,64,0,-1--1--1,,1|(1394,1257)|
+1,206,178,179,0,0,0,0,0,64,0,-1--1--1,,1|(1579,1180)|
+1,207,179,173,0,0,0,0,0,64,0,-1--1--1,,1|(1560,1128)|
+1,208,179,163,0,0,0,0,0,64,0,-1--1--1,,1|(1553,1078)|
+1,209,179,153,1,0,0,0,0,64,0,-1--1--1,,1|(1557,1009)|
+1,210,180,153,0,0,0,0,0,64,0,-1--1--1,,1|(1550,921)|
+1,211,181,163,0,0,0,0,0,64,0,-1--1--1,,1|(1548,1010)|
+1,212,176,153,1,0,0,0,0,64,0,-1--1--1,,1|(1269,1043)|
+1,213,176,163,1,0,0,0,0,64,0,-1--1--1,,1|(1316,1051)|
+1,214,176,173,0,0,0,0,0,64,0,-1--1--1,,1|(1272,1165)|
+1,215,177,173,0,0,0,0,0,64,0,-1--1--1,,1|(1381,1167)|
+1,216,140,180,1,0,0,0,0,64,0,-1--1--1,,1|(1480,873)|
+1,217,141,181,1,0,0,0,0,64,0,-1--1--1,,1|(1477,969)|
+1,218,142,181,0,0,0,0,0,64,0,-1--1--1,,1|(1483,1049)|
+1,219,142,180,0,0,0,0,0,64,0,-1--1--1,,1|(1497,999)|
+1,220,181,138,0,0,0,0,0,64,0,-1--1--1,,1|(1756,1002)|
+1,221,138,137,0,0,0,0,0,64,0,-1--1--1,,1|(1867,972)|
+1,222,137,136,0,0,0,0,0,64,0,-1--1--1,,1|(1867,901)|
+1,223,136,135,0,0,0,0,0,64,0,-1--1--1,,1|(1783,814)|
+1,224,135,134,0,0,0,0,0,64,0,-1--1--1,,1|(1632,800)|
+1,225,180,138,0,0,0,0,0,64,0,-1--1--1,,1|(1756,953)|
+///---\\\
+:GRAPH GRAPH
+:TITLE GRAPH
+:X-MIN 0
+:X-MAX 120
+:SCALE
+:VAR Land required for vegetable production
+
+:GRAPH Land_required_for_vegetable_production
+:TITLE Land required for vegetable production
+:X-MIN 0
+:X-MAX 120
+:SCALE
+:VAR Desired land for vegetable production|Expected
+:UNITS Hectares
+:VAR Land required for vegetable production|Actual
+
+:GRAPH Vegetable_supplied_quant
+:TITLE Vegetable supplied quantity
+:X-MIN 0
+:X-MAX 120
+:SCALE
+:VAR "Desired supplied quantity (veg)"|Expected
+:UNITS Kilograms
+:VAR "Actual supplied quantity (veg)"|Actual
+
+:GRAPH Vegetable_price
+:TITLE Vegetable price
+:X-MIN 0
+:X-MAX 120
+:SCALE
+:VAR Expected vegetable price|Expected
+:UNITS USD per kilogram
+:Y-MIN 0
+:Y-MAX 1.5
+:VAR Actual vegetable price|Actual
+:L<%^E!@
+1:testaug25.vdfx
+1:testaug21b.vdfx
+1:Current.vdfx
+9:testaug25
+23:0
+15:0,0,0,0,0,0
+19:45,0
+27:0,
+34:0,
+42:1
+72:0
+73:0
+4:Time
+5:Average education level
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:2
+41:0
+76:0
+77:0
+78:0
+79:0
+80:0
+81:0
+24:0
+25:600
+26:600
+75:
+43:
